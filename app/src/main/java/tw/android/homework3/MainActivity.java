@@ -1,5 +1,6 @@
 package tw.android.homework3;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,8 +9,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final int ACTIVITY_SET_Name = 1;
+    private Button btnSetName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +32,30 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        btnSetName = (Button)findViewById(R.id.btnHello);
+        btnSetName.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this,
+                        SetNameActivity.class);
+                startActivityForResult(intent, ACTIVITY_SET_Name);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode,
+                                    int resultCode, Intent intent) {
+
+        if (intent == null)
+            return;
+        super.onActivityResult(requestCode, resultCode, intent);
+        switch (requestCode) {
+            case ACTIVITY_SET_Name:
+                Toast.makeText(MainActivity.this, "Hello " + intent.getStringExtra("KEY_Name"), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
